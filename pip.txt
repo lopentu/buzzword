@@ -1,0 +1,4 @@
+uWSGI==2.0.14
+Flask==0.12
+coloredlogs==5.2
+requests==2.13.0
