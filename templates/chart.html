@@ -1,0 +1,40 @@
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+
+<script type="text/javascript">
+$(function () {
+    $('#freqdist').highcharts({
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: '詞頻分佈'
+        },
+        subtitle: {
+            text: '來源: 批踢踢'
+        },
+        xAxis: {
+            categories: ['Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May']
+        },
+        yAxis: {
+            title: {
+                text: '出現次數'
+            }
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false,
+
+            }
+        },
+        series: [{
+            name: '{{buzzword}}',
+            data: {{freq_by_month}}
+        }],
+        credits: false
+    });
+});
+</script>

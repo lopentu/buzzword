@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+    <title>BuzzWord</title><!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="https://rawgit.com/wbotelhos/raty/master/lib/jquery.raty.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.1/css/bootstrap-tour.min.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    <style type="text/css">
+    hr.pretty {
+        border: 0;
+        height: 1px;
+        background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    }
+    .star-on-png {
+        color: #FDD017;
+    }
+    .off-top-20 {
+        padding-top: 20px;
+    }
+    a.nodeco {
+        text-decoration: none;
+        color: inherit;
+    }
+    .ratingInfo{
+        color: #D1D0CE;
+    }
+    body {
+        padding-top: 70px;
+    }
+    .navbar-brand {
+        display: inline-block !important;
+        max-width: 120px;
+        height: auto;
+        margin-top: -3px;
+    }
+    img.about-img {
+        width: 90px;
+        height: 80px;
+    }
+    .table > tbody > tr > td {
+         vertical-align: middle;
+    }
+    /* ref: http://stackoverflow.com/a/24830641/1105489 */
+    .borderless tbody tr td, .borderless tbody tr th, .borderless thead tr th {
+        border: none;
+    }
+    #overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+        filter:alpha(opacity=50);
+        -moz-opacity:0.5;
+        -khtml-opacity: 0.5;
+        opacity: 0.5;
+        z-index: 100000;
+    }
+    </style>
+
+</head>
+
+<body data-spy="scroll">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    <img src="/static/logo.png" width="70%">
+                </a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="#freqdist">詞頻分佈</a></li>
+                    <li><a href="#conc">逐詞索引</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a id="demo" href="#">說明</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#aboutModal">關於</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="text-center jumbotron" style="font-weight:900;"><img src="/static/logo.png" width="20%"></h1>
+        <div class="text-center">
+            <form class="navbar-form" id="buzzform">
+                <div class="input-group off-top-20">
+                    <input type="text" class="form-control" placeholder="" name="find_buzzword" id="find_buzzword" required>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" id="fw">找詞</button>
+                        <button class="btn btn-default" id="comp">比較</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="text-center off-top-20">
+            <span class="alert alert-success text-center" style="font-size:120px" id="buzzword">{{buzzword}}</span>
+            <div class="off-top-20">新詞程度: <span id="rating"></span></div>
+            <div class="ratingInfo">
+            {% if count == 0 %}
+                尚無人評價
+            {% else %}
+                已{{count}}人評價
+            {% endif %}
+            </div>
+        </div>
+        <div id="freqdist" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    </div>
+
+    <div class="container">
+        <table id="conc" class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in conc %}
+                <tr>
+                    <td style="text-align:right" width="40%">{{c.0}}</td>
+                    <td style="text-align:center" width="20%">{{c.1}}</td>
+                    <td style="text-align:left" width="40%">{{c.2}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>  
+        </table>
+    </div>
+
+    <footer>
+        <hr class="pretty">
+        <div class="container">
+            <a class="nodeco" href="http://lopen.linguistics.ntu.edu.tw/" target="_blank"><img src="http://lopen.linguistics.ntu.edu.tw/assets/icon/logo.jpg" width="30" height="30" alt="LOPE"> Graduate Institute of Linguistics, National Taiwan University, 2015</a>
+        </div>
+    </footer>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+    <script src="//rawgit.com/wbotelhos/raty/master/lib/jquery.raty.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.1/js/bootstrap-tour-standalone.min.js"></script>
+    <script src="//fgnass.github.io/spin.js/spin.js"></script>
+    <script src="//fgnass.github.io/spin.js/jquery.spin.js"></script>
+
+
+    {% include 'chart.html' %}
+    {% include 'modals.html' %}
+
+    <div id="spinner"></div>
+
+    <script type="text/javascript">
+    $('body').on('click', '#comp', function(e) {
+        e.preventDefault();
+        var val = $('input[name="find_buzzword"]').val()
+        $.get('/cqp/'+val, function(data) {
+            var chart = $('#freqdist').highcharts();
+            chart.addSeries({
+                name: val,
+                data: JSON.parse(data)
+            });
+        });
+    });
+
+    $('body').on('click', '#rating', function() {
+        var score = $(this).raty('score'),
+            word = $('#buzzword').text();
+        $.get('/rate/' + word + '/' + score, function(resp) {
+            console.log(resp);
+        })
+    });
+
+    var tour = new Tour({
+
+        container: "body",
+        backdrop: true,
+
+        steps: [
+        {
+            element: "#buzzword",
+            title: "新詞",
+            content: "根據特殊演算法所計算出之新詞"
+        },
+        {
+            element: "#rating",
+            title: "評價",
+            content: "如果您覺得這個詞很「新」，就給他多一點星星，反之亦然 (您可隨時更改評價)"
+        },
+        {
+            element: "#find_buzzword",
+            title: "",
+            content: "輸入您感興趣的詞"
+        },
+        {
+            element: "#fw",
+            title: "找詞",
+            content: "找到您感興趣的詞"
+        },
+        {
+            element: "#comp",
+            title: "比較",
+            content: "在「詞頻分佈」圖上新增一比資料，與「{{buzzword}}」做比較"
+        },
+    ]});
+
+    $('body').on('click', '#demo', function(e) {
+        e.preventDefault();
+        tour.init();
+        tour.restart();
+    })
+
+    // smooth scrolling to Bootstrap's scroll spy function
+    // ref: http://stackoverflow.com/a/14805098/1105489
+    $("nav ul li a[href^='#']").on('click', function(e) {
+        // prevent default anchor click behavior
+        e.preventDefault();
+
+        // store hash
+        var hash = this.hash;
+
+        // animate
+        $('html, body').animate({
+            scrollTop: $(hash).offset().top
+            }, 300, function(){
+
+            // when done, add hash to url
+            // (default click behaviour)
+            window.location.hash = hash;
+        });
+
+    });
+
+    $('body').on('click', '#fw', function() {
+        var overlay = jQuery('<div id="overlay"> </div>');
+        overlay.appendTo(document.body);
+        $('#spinner').spin('large', 'white');
+    });
+
+    </script>
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $('#conc').DataTable({bFilter: false, bInfo: false, bSort: false});
+        $('#rating').raty({ starType: 'i' });
+        if ('{{score}}' != 'None') {
+            $('#rating').raty('score', parseInt({{score}}));
+        }
+        $('.dataTables_paginate').parent().prev().append('<span><span class="glyphicon glyphicon-exclamation-sign"></span>最多僅顯示1000筆</span>')
+    })
+    </script>
+
+</body>
+</html>
