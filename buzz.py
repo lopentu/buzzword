@@ -1,12 +1,13 @@
 # -*-coding: utf-8 -*-
-from flask import Flask, render_template, request
-import coloredlogs
 import datetime
-import requests
 import logging
 import sqlite3
 import random
 import json
+
+from flask import Flask, render_template, request
+import coloredlogs
+import requests
 
 coloredlogs.install(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -17,7 +18,14 @@ app = Flask(__name__, static_url_path='/static')
 def get_from_cache(word):
     db = sqlite3.connect('buzz.db')
     cursor = db.cursor()
-    cursor.execute('''SELECT word, json_data FROM cache WHERE (word=?)''', (word, ))
+    cursor.execute(
+        '''
+            SELECT word, json_data
+            FROM cache
+            WHERE (word=?)
+        ''',
+        (word, )
+    )
     res = cursor.fetchone()
     db.close()
     jdata = None
@@ -30,7 +38,13 @@ def get_from_cache(word):
 def insert_cache(word, jdata):
     db = sqlite3.connect('buzz.db')
     cursor = db.cursor()
-    cursor.execute('''INSERT OR IGNORE INTO cache VALUES (?, ?)''', (word, jdata))
+    cursor.execute(
+        '''
+            INSERT OR IGNORE INTO cache
+            VALUES (?, ?)
+        ''',
+        (word, jdata)
+    )
     db.commit()
     db.close()
     logger.info('"%s" cached!' % word)
@@ -57,7 +71,13 @@ def rate(word, score):
     cursor = db.cursor()
     ip = request.remote_addr
     now = datetime.datetime.now()
-    cursor.execute('''REPLACE INTO rating VALUES (?, ?, ?, ?)''', (now, ip, word, score))
+    cursor.execute(
+        '''
+            REPLACE INTO rating
+            VALUES (?, ?, ?, ?)
+        ''',
+        (now, ip, word, score)
+    )
     db.commit()
     logger.debug('{}, {}, {}'.format(ip, word, score))
     return 'OK'
@@ -72,7 +92,9 @@ def cqp(word):
 @app.route('/')
 def index():
     buzzword = request.args.get('find_buzzword')
-    default_word = random.choice(['喵星人', '汪星人', '女神', '男神', '小屁孩', '屁孩', '魯蛇', '富奸', '溫拿'])
+    default_word = random.choice(
+        ['喵星人', '汪星人', '女神', '男神', '小屁孩', '屁孩', '魯蛇', '富奸', '溫拿']
+    )
     if not buzzword:
         buzzword = default_word
     conclist, freq_by_month = cqp_consult(buzzword)
@@ -83,13 +105,33 @@ def index():
 
     if buzzword != default_word:
         now = datetime.datetime.now()
-        cursor.execute('''INSERT INTO history VALUES (?, ?, ?)''', (now, ip, buzzword))
+        cursor.execute(
+            '''
+                INSERT INTO history
+                VALUES (?, ?, ?)
+            ''',
+            (now, ip, buzzword)
+        )
 
-    cursor.execute('''SELECT score FROM rating WHERE (ip=? and word=?)''', (ip, buzzword))
+    cursor.execute(
+        '''
+            SELECT score
+            FROM rating
+            WHERE (ip=? and word=?)
+        ''',
+        (ip, buzzword)
+    )
     res = cursor.fetchone()
     score = res[0] if res else None
 
-    cursor.execute('''SELECT COUNT(*) FROM rating WHERE (word=?)''', (buzzword, ))
+    cursor.execute(
+        '''
+            SELECT COUNT(*)
+            FROM rating
+            WHERE (word=?)
+        ''',
+        (buzzword, )
+    )
     res = cursor.fetchone()
     count = res[0] if res else 0
 
@@ -106,15 +148,7 @@ def index():
         method='get'
     )
 
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=12345, debug=True)
 
-# Using uWSGI
-# uwsgi --http 0.0.0.0:12345 --module buzz --callable app --processes 4 --threads 10
-
-# Create table
-# CREATE TABLE history (datetime DATETIME, ip CHAR(20), word CHAR);
-# CREATE TABLE cache (word PRIMARY KEY, json_data CHAR);
-
-# CREATE TABLE rating (datetime DATETIME, ip CHAR(20), word CHAR, score INTEGER, UNIQUE (ip, word));
-# CREATE UNIQUE INDEX rating_index ON rating (ip, word);
