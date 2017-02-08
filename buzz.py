@@ -4,6 +4,7 @@ import logging
 import sqlite3
 import random
 import json
+import sys
 
 from flask import Flask, render_template, request
 import coloredlogs
@@ -12,7 +13,15 @@ import requests
 coloredlogs.install(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-app = Flask(__name__, static_url_path='/static')
+if sys.argv[0] == 'uwsgi':
+    static_url_path = '/buzz/static'
+else:
+    static_url_path = '/static'
+
+logger.debug(sys.argv)
+logger.debug(static_url_path)
+
+app = Flask(__name__, static_url_path=static_url_path)
 
 
 def get_from_cache(word):
