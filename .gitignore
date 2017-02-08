@@ -153,5 +153,4 @@ tags
 # End of https://www.gitignore.io/api/python,vim,osx,linux
 
 *.db
-
-
+*.sock
