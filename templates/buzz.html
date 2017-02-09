@@ -173,7 +173,7 @@
     $('body').on('click', '#comp', function(e) {
         e.preventDefault();
         var val = $('input[name="find_buzzword"]').val()
-        $.get('/cqp/'+val, function(data) {
+        $.get("{{ url_for('cqp', word='_1') }}".replace('_1', val), function(data) {
             var chart = $('#freqdist').highcharts();
             chart.addSeries({
                 name: val,
@@ -185,7 +185,7 @@
     $('body').on('click', '#rating', function() {
         var score = $(this).raty('score'),
             word = $('#buzzword').text();
-        $.get('/rate/' + word + '/' + score, function(resp) {
+            $.get("{{ url_for('rate', word='_1', score='_2') }}".replace('_1', word).replace('_2', score), function(resp) {
             console.log(resp);
         })
     });
