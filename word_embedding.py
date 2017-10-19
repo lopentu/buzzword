@@ -94,7 +94,7 @@ ptt_boards = [AllTogether, Baseball, Beauty, Boy_Girl, BuyTogether,ChangHua, Chi
 
 for boards in ptt_boards:
 	print('Processing content in ptt board:', boards.name)
-	for posts in boards.find({},{'content':True})[:10]: # change the number of post here!
+	for posts in boards.find({},{'content':True})[:]: # change the number of post here!
 		test_data.append([posts['content']])
 # print(test_data) # --- test_data contains all the posts in ptt_boards --- #
 
