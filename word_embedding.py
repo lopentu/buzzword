@@ -5,6 +5,7 @@ import jieba
 import gensim
 import logging
 import pickle
+from itertools import chain
 
 # ----- login db ----- #
 password = urllib.parse.quote_plus('gjoKClmg8eQDF4pKeVXMkTnX7wL/9MVilkavArDouNA=')
@@ -68,54 +69,73 @@ joke = db['joke']
 movie = db['movie']
 prozac = db['prozac']
 
+test_data = []
 ptt_posts = []
 
 # --- set ref corpus --- #
-test_data = zip(AllTogether.find()[:], Baseball.find()[:], Beauty.find()[:], Boy_Girl.find()[:]\
-				, BuyTogether.find()[:], ChangHua.find()[:], Chiayi.find()[:], ChungLi.find()[:]\
-				, Daliao.find()[:], FengYuan.find()[:], FongShan.find()[:], Food.find()[:]\
-				, FuMouDiscuss.find()[:], Gossiping.find()[:], Hate.find()[:], Hsinchu.find()[:]\
-				, Hualien.find()[:], I_Lan.find()[:], Jinmen.find()[:], Kaohsiung.find()[:]\
-				, Keelung.find()[:], Linyuan.find()[:], LoL.find()[:], Matsu.find()[:]\
-				, MenTalk.find()[:], Miaoli.find()[:], NBA.find()[:], Nantou.find()[:]\
-				, PH_sea.find()[:], PingTung.find()[:], PuzzleDragon.find()[:], Sad.find()[:]\
-				, Stock.find()[:], StupidClown.find()[:], TaichungBun.find()[:], TaichungCont.find()[:]\
-				, Tainan.find()[:], Taitung.find()[:], Taoyuan.find()[:], ToS.find()[:]\
-				, WomenTalk.find()[:], Yunlin.find()[:], ask.find()[:], happy.find()[:]\
-				, home_sale.find()[:], iPhone.find()[:], joke.find()[:], movie.find()[:]\
-				, prozac.find()[:])
+# test_data = zip(AllTogether.find()[:10], Baseball.find()[:5], Beauty.find()[:3], Boy_Girl.find()[:2])
+				# , BuyTogether.find()[:], ChangHua.find()[:], Chiayi.find()[:], ChungLi.find()[:]\
+				# , Daliao.find()[:], FengYuan.find()[:], FongShan.find()[:], Food.find()[:]\
+				# , FuMouDiscuss.find()[:], Gossiping.find()[:], Hate.find()[:], Hsinchu.find()[:]\
+				# , Hualien.find()[:], I_Lan.find()[:], Jinmen.find()[:], Kaohsiung.find()[:]\
+				# , Keelung.find()[:], Linyuan.find()[:], LoL.find()[:], Matsu.find()[:]\
+				# , MenTalk.find()[:], Miaoli.find()[:], NBA.find()[:], Nantou.find()[:]\
+				# , PH_sea.find()[:], PingTung.find()[:], PuzzleDragon.find()[:], Sad.find()[:]\
+				# , Stock.find()[:], StupidClown.find()[:], TaichungBun.find()[:], TaichungCont.find()[:]\
+				# , Tainan.find()[:], Taitung.find()[:], Taoyuan.find()[:], ToS.find()[:]\
+				# , WomenTalk.find()[:], Yunlin.find()[:], ask.find()[:], happy.find()[:]\
+				# , home_sale.find()[:], iPhone.find()[:], joke.find()[:], movie.find()[:]\
+				# , prozac.find()[:])
+ptt_boards = [AllTogether, Baseball, Beauty, Boy_Girl, BuyTogether,ChangHua, Chiayi, ChungLi, Daliao,\
+			FengYuan, FongShan, Food, FuMouDiscuss, Gossiping, Hate, Hsinchu,Hualien, I_Lan, Jinmen,\
+			Kaohsiung, Keelung, Linyuan, LoL, Matsu, MenTalk, Miaoli, NBA, Nantou, PH_sea, PingTung,\
+			PuzzleDragon, Sad,Stock, StupidClown, TaichungBun, TaichungCont, Tainan, Taitung, Taoyuan,\
+			ToS, WomenTalk, Yunlin, ask, happy, home_sale, iPhone, joke, movie, prozac]
 
-punctuations = '\n|\?|\？|\.|。|，|\^|\s|=|、|！|\!|\/|\／|\）|\(|\）|>|<|"||\「|\」|\:|\◎|\☆|\Σ|\-|~|˙|→|一|____________________________|'
+for boards in ptt_boards:
+	print('Processing content in ptt board:', boards.name)
+	for posts in boards.find({},{'content':True})[:10]: # change the number of post here!
+		test_data.append([posts['content']])
+# print(test_data) # --- test_data contains all the posts in ptt_boards --- #
+
+
+
+punctuations = '\n|\?|\？|\.|。|，|\^|\s|=|、|！|\!|\/|\／|\）|\(|\）|>|<|"||\「|\」|\:|◎|\☆|\Σ|\-|~|˙|→|一|_+|'
 
 for content in test_data:
-	for nums in [position for position, article in enumerate(content)]:
+	print(test_data.index(content)+1,'/',len(test_data))
+	for post in content:
+	# for nums in [position for position, article in enumerate(content)]:
 		stopword = open('stopword.txt','r', encoding='utf8').read()
 		jieba.load_userdict('aged.lexicon/target.test.txt') # seg by test word list
-		clean_content = re.sub(punctuations,'', content[nums]['content'])
+		clean_content = re.sub(punctuations,'', post)
 		word = jieba.cut(clean_content, cut_all=False)
 		ptt_posts.append([i for i in word if i not in stopword])
-# print(ptt_posts)
 
-# --- train word embedding --- #
-# model = gensim.models.Word2Vec(ptt_posts, min_count=1)  
+# print(ptt_posts) # --- ptt_posts contains all the segmented sentences in all the ptt_boards --- #
+
+# # --- train word embedding --- #
+print('Training Word2Vec model...')
+model = gensim.models.Word2Vec(ptt_posts, min_count=1)  
 model = gensim.models.word2vec.Word2Vec(sentences= ptt_posts, size=100, alpha=0.025, window=10, min_count=5,\
 		 max_vocab_size=None, sample=0.001, seed=1, workers=3, min_alpha=0.0001, sg=0, hs=0, negative=5,\
 		 cbow_mean=1, iter=5, null_word=0, trim_rule=None, sorted_vocab=1,\
 		 batch_words=10000)
 
-# --- write training result as python pickle file --- #
+# # # --- write training result as python pickle file --- #
+print('Writing taining result as pickle...')
 filename = 'word_embedding_model.sav'
 pickle.dump(model, open(filename, 'wb'))
+print('Finished')
+# # --- load the model from pickle --- #
+# # loaded_model = pickle.load(open(filename, 'rb'))
 
-# --- load the model from pickle --- #
-# loaded_model = pickle.load(open(filename, 'rb'))
 
-
-# --- view trained result --- #
-# print(loaded_model.wv['比賽'])  # examine array of target word
-# print(loaded_model.wv.most_similar(positive = ['正妹'])) # find the top relevant words to target word
-# print(loaded_model.wv.most_similar(positive = ['比賽','看'])) # find the top relevant words to both of the target words
-# print(loaded_model.wv.similarity('台灣', '臺灣')) # find the distance of the two words
+# # --- view trained result --- #
+# # print(loaded_model.wv['比賽'])  # examine array of target word
+# # print(loaded_model.wv.most_similar(positive = ['正妹'])) # find the top relevant words to target word
+# # print(loaded_model.wv.most_similar(positive = ['比賽','看'])) # find the top relevant words to both of the target words
+# # print(loaded_model.wv.similarity('台灣', '臺灣')) # find the distance of the two words
 
 
 
