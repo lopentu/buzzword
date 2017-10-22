@@ -28,7 +28,7 @@ def create_posts_dict_and_write_raw_posts_to_file():
     """
 
     regex = re.compile(r'(.+)-(.+)-(.+)')  # create a regex to capture the year and month of a post
-    num_posts_to_collect = 100  # select the number of posts to collect for each board
+#    num_posts_to_collect = 100  # select the number of posts to collect for each board
 
     for board in board_list[:-2]:  # loop over all boards while avoiding 'system.index' and 'system.users'
         # initialize a defaultdict
@@ -40,9 +40,9 @@ def create_posts_dict_and_write_raw_posts_to_file():
 
         with open("raw/{}_raw.txt".format(board), "w", encoding="utf8") as raw_file:
 
-            with progressbar.ProgressBar(max_value=num_posts_to_collect) as bar:
+            with progressbar.ProgressBar(max_value=progressbar.UnknownLength) as bar:
 
-                for post in collect.find()[:num_posts_to_collect]:  # choose number of posts to collect
+                for post in collect.find():  # choose number of posts to collect
 
                     date = regex.search(str(post['post_time']))
                     year = date.group(1)
