@@ -17,7 +17,7 @@ def create_split_corpus():
     """
 
     regex = re.compile(r'(.+)-(.+)-(.+)')  # create a regex to capture the year and month of a post
-    num_posts_to_collect = 100  # select the number of posts to collect for each board
+#    num_posts_to_collect = 100  # select the number of posts to collect for each board
     years = ['2016', '2017']
 
     for board in board_list[:-2]:  # loop over all boards while avoiding 'system.index' and 'system.users'
@@ -26,12 +26,12 @@ def create_split_corpus():
 
         p_bar = 1  # set the progressbar to start at one
 
-        with open("raw/{}_raw_after_2016.txt".format(board), "w", encoding="utf8") as after_2016_file,\
-                open("raw/{}_raw_before_2016.txt".format(board), "w", encoding="utf8") as before_2016_file:
+        with open("raw_split/{}_raw_after_2016.txt".format(board), "w", encoding="utf8") as after_2016_file,\
+                open("raw_split/{}_raw_before_2016.txt".format(board), "w", encoding="utf8") as before_2016_file:
 
             with progressbar.ProgressBar(max_value=num_posts_to_collect) as bar:
 
-                for post in collect.find()[:num_posts_to_collect]:  # choose number of posts to collect
+                for post in collect.find():  # choose number of posts to collect
 
                     date = regex.search(str(post['post_time']))
                     year = date.group(1)
