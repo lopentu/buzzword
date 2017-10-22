@@ -29,7 +29,7 @@ def create_split_corpus():
         with open("raw_split/{}_raw_after_2016.txt".format(board), "w", encoding="utf8") as after_2016_file,\
                 open("raw_split/{}_raw_before_2016.txt".format(board), "w", encoding="utf8") as before_2016_file:
 
-            with progressbar.ProgressBar(max_value=num_posts_to_collect) as bar:
+            with progressbar.ProgressBar(max_value=progressbar.UnknownLength) as bar:
 
                 for post in collect.find():  # choose number of posts to collect
 
