@@ -29,8 +29,8 @@ def create_split_corpus():
 
         p_bar = 1  # set the progressbar to start at one
 
-        with open("raw/{}_raw_after_2016.txt".format(board), "w", encoding="utf8") as after_2016_file,\
-                open("raw/{}_raw_before_2016.txt".format(board), "w", encoding="utf8") as before_2016_file:
+        with open("raw_split/{}_raw_after_2016.txt".format(board), "w", encoding="utf8") as after_2016_file,\
+                open("raw_split/{}_raw_before_2016.txt".format(board), "w", encoding="utf8") as before_2016_file:
 
             with progressbar.ProgressBar(max_value=progressbar.UnknownLength) as bar:
 
