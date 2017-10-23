@@ -35,16 +35,15 @@ def create_split_corpus():
             with progressbar.ProgressBar(max_value=progressbar.UnknownLength) as bar:
 
                 for post in collect.find():  # choose number of posts to collect
+                    bar.update(p_bar)
+                    p_bar += 1
 
                     for buzzword in df['token'].values:
-                        if buzzword in post:
+                        if buzzword in post['content']:
 
                             date = regex.search(str(post['post_time']))
                             year = date.group(1)
                             month = date.group(2)
-
-                            bar.update(p_bar)
-                            p_bar += 1
 
                             if year in years:
                                 print(post['content'], file=after_2016_file)  # write posts after 2016 to file
