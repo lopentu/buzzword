@@ -2,6 +2,7 @@ from pymongo import MongoClient
 import urllib
 import progressbar
 import re
+import pandas as pd
 
 """
 This program creates:
@@ -17,8 +18,10 @@ def create_split_corpus():
     """
 
     regex = re.compile(r'(.+)-(.+)-(.+)')  # create a regex to capture the year and month of a post
-#    num_posts_to_collect = 100  # select the number of posts to collect for each board
+    # num_posts_to_collect = 100  # select the number of posts to collect for each board
     years = ['2016', '2017']
+
+    df = pd.read_table("aged.lexicon/target.test.txt", encoding='utf8', names=['token', 'type'])
 
     for board in board_list[:-2]:  # loop over all boards while avoiding 'system.index' and 'system.users'
         collect = db[board]  # 49 boards altogether
@@ -26,24 +29,27 @@ def create_split_corpus():
 
         p_bar = 1  # set the progressbar to start at one
 
-        with open("raw_split/{}_raw_after_2016.txt".format(board), "w", encoding="utf8") as after_2016_file,\
-                open("raw_split/{}_raw_before_2016.txt".format(board), "w", encoding="utf8") as before_2016_file:
+        with open("raw/{}_raw_after_2016.txt".format(board), "w", encoding="utf8") as after_2016_file,\
+                open("raw/{}_raw_before_2016.txt".format(board), "w", encoding="utf8") as before_2016_file:
 
             with progressbar.ProgressBar(max_value=progressbar.UnknownLength) as bar:
 
                 for post in collect.find():  # choose number of posts to collect
 
-                    date = regex.search(str(post['post_time']))
-                    year = date.group(1)
-                    month = date.group(2)
+                    for buzzword in df['token'].values:
+                        if buzzword in post:
 
-                    bar.update(p_bar)
-                    p_bar += 1
+                            date = regex.search(str(post['post_time']))
+                            year = date.group(1)
+                            month = date.group(2)
 
-                    if year in years:
-                        print(post['content'], file=after_2016_file)  # write posts after 2016 to file
-                    else:
-                        print(post['content'], file=before_2016_file)  # write posts before 2016 to file
+                            bar.update(p_bar)
+                            p_bar += 1
+
+                            if year in years:
+                                print(post['content'], file=after_2016_file)  # write posts after 2016 to file
+                            else:
+                                print(post['content'], file=before_2016_file)  # write posts before 2016 to file
 
 
 if __name__ == "__main__":
