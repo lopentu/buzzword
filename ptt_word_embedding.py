@@ -123,7 +123,7 @@ loaded_model = pickle.load(open(filename, 'rb'))
 測試：以10個relevant words為一組單位，每一個age category隨機選兩個詞彙，人工檢查該target word (e.g 正妹) 所產出的 relevant words中，
 語意不合理的範圍在哪裡，並將不合理的semantic distance值設為threshold，抓出threshold以上的relevant word數量
 '''
-res = loaded_model.wv.most_similar(positive = ['淑女'], topn = 10000) 
+res = loaded_model.wv.most_similar(positive = ['中國'], topn = 10) 
 # find the top 10000 relevant words and values to target word
 
 # ----- threshold testing ----- #  # let the num be 0.537275
@@ -206,42 +206,3 @@ Category: s (11 words)
 宅男	not in vocabulary
 辣妹	223
 '''
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
