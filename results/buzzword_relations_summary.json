@@ -1,0 +1,206 @@
+{
+    "token": {
+        "Relation Tokens": 3,
+        "Relation Types": 1,
+        "Relations Formula": 0.3333333333333333,
+        "Num of Relations (Syntax)": 1
+    },
+    "美女": {
+        "Relation Tokens": 26522,
+        "Relation Types": 4079,
+        "Relations Formula": 5.6904833722946995,
+        "Num of Relations (Syntax)": 37
+    },
+    "女友": {
+        "Relation Tokens": 164740,
+        "Relation Types": 12346,
+        "Relations Formula": 2.8478086682044434,
+        "Num of Relations (Syntax)": 38
+    },
+    "淑女": {
+        "Relation Tokens": 1626,
+        "Relation Types": 464,
+        "Relations Formula": 7.70479704797048,
+        "Num of Relations (Syntax)": 27
+    },
+    "網美": {
+        "Relation Tokens": 281,
+        "Relation Types": 98,
+        "Relations Formula": 7.672597864768683,
+        "Num of Relations (Syntax)": 22
+    },
+    "潮男": {
+        "Relation Tokens": 556,
+        "Relation Types": 168,
+        "Relations Formula": 8.46043165467626,
+        "Num of Relations (Syntax)": 28
+    },
+    "老公": {
+        "Relation Tokens": 46537,
+        "Relation Types": 5325,
+        "Relations Formula": 4.46257816361175,
+        "Num of Relations (Syntax)": 39
+    },
+    "帥哥": {
+        "Relation Tokens": 32322,
+        "Relation Types": 4278,
+        "Relations Formula": 5.691293855578244,
+        "Num of Relations (Syntax)": 43
+    },
+    "姑娘": {
+        "Relation Tokens": 4169,
+        "Relation Types": 865,
+        "Relations Formula": 4.7721276085392175,
+        "Num of Relations (Syntax)": 23
+    },
+    "小子": {
+        "Relation Tokens": 5960,
+        "Relation Types": 1186,
+        "Relations Formula": 5.372818791946309,
+        "Num of Relations (Syntax)": 27
+    },
+    "大媽": {
+        "Relation Tokens": 1481,
+        "Relation Types": 568,
+        "Relations Formula": 14.190411883862255,
+        "Num of Relations (Syntax)": 37
+    },
+    "型男": {
+        "Relation Tokens": 2924,
+        "Relation Types": 535,
+        "Relations Formula": 4.940150478796169,
+        "Num of Relations (Syntax)": 27
+    },
+    "美眉": {
+        "Relation Tokens": 3592,
+        "Relation Types": 875,
+        "Relations Formula": 5.35913140311804,
+        "Num of Relations (Syntax)": 22
+    },
+    "男友": {
+        "Relation Tokens": 235485,
+        "Relation Types": 17718,
+        "Relations Formula": 2.7086566023313585,
+        "Num of Relations (Syntax)": 36
+    },
+    "老婆": {
+        "Relation Tokens": 58979,
+        "Relation Types": 6378,
+        "Relations Formula": 4.001186863120772,
+        "Num of Relations (Syntax)": 37
+    },
+    "婊子": {
+        "Relation Tokens": 5672,
+        "Relation Types": 1258,
+        "Relations Formula": 8.428067700987306,
+        "Num of Relations (Syntax)": 38
+    },
+    "女神": {
+        "Relation Tokens": 25546,
+        "Relation Types": 4185,
+        "Relations Formula": 5.897596492601582,
+        "Num of Relations (Syntax)": 36
+    },
+    "大哥": {
+        "Relation Tokens": 18134,
+        "Relation Types": 4150,
+        "Relations Formula": 7.780963935149443,
+        "Num of Relations (Syntax)": 34
+    },
+    "熟女": {
+        "Relation Tokens": 1470,
+        "Relation Types": 427,
+        "Relations Formula": 8.714285714285715,
+        "Num of Relations (Syntax)": 30
+    },
+    "人妻": {
+        "Relation Tokens": 731,
+        "Relation Types": 211,
+        "Relations Formula": 8.370725034199726,
+        "Num of Relations (Syntax)": 29
+    },
+    "太太": {
+        "Relation Tokens": 19577,
+        "Relation Types": 3755,
+        "Relations Formula": 6.713234918526843,
+        "Num of Relations (Syntax)": 35
+    },
+    "優質": {
+        "Relation Tokens": 9855,
+        "Relation Types": 2276,
+        "Relations Formula": 9.699847792998478,
+        "Num of Relations (Syntax)": 42
+    },
+    "人氣": {
+        "Relation Tokens": 8518,
+        "Relation Types": 2799,
+        "Relations Formula": 13.801127025123268,
+        "Num of Relations (Syntax)": 42
+    },
+    "大姊": {
+        "Relation Tokens": 2342,
+        "Relation Types": 696,
+        "Relations Formula": 11.292912040990606,
+        "Num of Relations (Syntax)": 38
+    },
+    "紳士": {
+        "Relation Tokens": 4088,
+        "Relation Types": 922,
+        "Relations Formula": 7.8938356164383565,
+        "Num of Relations (Syntax)": 35
+    },
+    "夥計": {
+        "Relation Tokens": 157,
+        "Relation Types": 70,
+        "Relations Formula": 8.02547770700637,
+        "Num of Relations (Syntax)": 18
+    },
+    "嬌娃": {
+        "Relation Tokens": 39,
+        "Relation Types": 21,
+        "Relations Formula": 5.9230769230769225,
+        "Num of Relations (Syntax)": 11
+    },
+    "宅男": {
+        "Relation Tokens": 10622,
+        "Relation Types": 2086,
+        "Relations Formula": 7.659009602711354,
+        "Num of Relations (Syntax)": 39
+    },
+    "君子": {
+        "Relation Tokens": 1859,
+        "Relation Types": 597,
+        "Relations Formula": 9.313071543840774,
+        "Num of Relations (Syntax)": 29
+    },
+    "色狼": {
+        "Relation Tokens": 1507,
+        "Relation Types": 502,
+        "Relations Formula": 9.993364299933644,
+        "Num of Relations (Syntax)": 30
+    },
+    "正妹": {
+        "Relation Tokens": 63708,
+        "Relation Types": 8795,
+        "Relations Formula": 6.074276386011176,
+        "Num of Relations (Syntax)": 44
+    },
+    "少年": {
+        "Relation Tokens": 20069,
+        "Relation Types": 2765,
+        "Relations Formula": 4.408789675619114,
+        "Num of Relations (Syntax)": 32
+    },
+    "辣妹": {
+        "Relation Tokens": 5672,
+        "Relation Types": 1269,
+        "Relations Formula": 6.488187588152328,
+        "Num of Relations (Syntax)": 29
+    },
+    "肥宅": {
+        "Relation Tokens": 187013,
+        "Relation Types": 24879,
+        "Relations Formula": 5.8534754268419835,
+        "Num of Relations (Syntax)": 44
+    }
+}
